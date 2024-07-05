@@ -8,8 +8,7 @@ int decimalToBinary(int value) {
     char binary[33];
 
     for (int i = 31; i >= 0; i--) {
-        int bit = (value >> i) & 1;
-        binary[index++] = bit + '0';
+        binary[index++] = ((value >> i) & 1) ? '1' : '0';
     }
 
     binary[index] = '\0';
@@ -18,10 +17,46 @@ int decimalToBinary(int value) {
     return 0;
 }
 
+int hexDigitToBinary(char hex, char *binary) {
+    int value;
+
+    if (hex >= '0' && hex <= '9') {
+        value = hex - '0';
+    } else if (hex >= 'A' && hex <= 'F') {
+        value = hex - 'A' + 10;
+    } else if (hex >= 'a' && hex <= 'f') {
+        value = hex - 'a' + 10;
+    } else {
+        printf("Invalid hex character: %c", hex);
+        binary[0] = '\0';
+        return -1;
+    }
+
+    for (int i = 3; i >= 0; i--) {
+        binary[3 - i] = ((value >> i) & 1) ? '1' : '0';
+    }
+    binary[4] = '\0';
+    return 0;
+}
+
+int hexToBinary(char *value) {
+    int index  = 0;
+    char binary[129];
+    binary[0] = '\0';
+
+    for (int i = 0; value[i] != '\0'; i++) {
+        char binDigit[5];
+        hexDigitToBinary(value[i], binDigit);
+        strcat(binary, binDigit);
+    }
+    printf("The hexadecimal value you supplied is represented in binary as: %s \n", binary);
+    return 0;
+}
+
 int binaryToDecimal(char *value) {
     int decimal = 0;
     int power;
-    printf("binary input in binary to decimal function: %s\n", value);
+
     int length = strlen(value);
 
     for (int i = 0; i < length; i++) {
@@ -64,6 +99,10 @@ int main() {
 
     if (strcmp(inputFormat, "binary") == 0 && strcmp(outputFormat, "decimal") == 0) {
         binaryToDecimal(stringInput);
+    }
+
+    if (strcmp(inputFormat, "hexadecimal") == 0 && strcmp(outputFormat, "binary") == 0) {
+        hexToBinary(stringInput);
     }
     return 0;
 }
