@@ -31,7 +31,7 @@ int binaryToDecimal(char *value) {
             decimal += 1 << power;
         }
     }
-    printf("decimal representation of binary value: %d\n", decimal);
+    printf("The binary value you supplies is represented in decimal as: %d\n", decimal);
     return 0;
 }
 
