@@ -70,6 +70,37 @@ int binaryToDecimal(char *value) {
     return 0;
 }
 
+int binaryToHex(char *value) {
+    int decimal = 0;
+    int length = strlen(value);
+    int power = 0;
+    int remainder = 0;
+    char hexString[5] = {0};
+
+    for (int i = 0; i < length; i++) {
+       power = length - 1 - i;
+
+        if (value[i] == '1') {
+            decimal += 1 << power;
+        }
+    }
+
+    hexString[length - 1] = '\0';
+    
+    for (int i = length - 2; i >= 0; i--) {
+        remainder = decimal % 16;
+        if (remainder < 10) {
+            hexString[i] = remainder + '0';
+        } else {
+            hexString[i] = (remainder - 10) + 'A';
+        }
+        decimal = decimal / 16;
+    }
+
+    printf("The binary value you supplied is represented in hexadecimal as: %s\n", hexString);
+    return 0;
+}
+
 int main() {
     char stringInput[33];
     char inputFormat[20];
@@ -104,5 +135,9 @@ int main() {
     if (strcmp(inputFormat, "hexadecimal") == 0 && strcmp(outputFormat, "binary") == 0) {
         hexToBinary(stringInput);
     }
+
+    if (strcmp(inputFormat, "binary") == 0 && strcmp(outputFormat, "hexadecimal") == 0) {
+        binaryToHex(stringInput);
+    } 
     return 0;
 }
